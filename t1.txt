@@ -1,0 +1,29 @@
+create table old_students(
+  ID integer primary key,
+  Student_ID integer,
+  first_name varchar(50),
+  last_name varchar(50),
+  email varchar(50),
+  gender varchar(50),
+  birth_date integer(50),
+  phone_number integer(50)
+);
+
+create trigger students_t1
+after delete on Students
+begin insert into old_students values(old_students.Student_ID,
+ old_students.first_name, old_students.last_name,
+ old_students.email, old_students.gender, old_students.birth_date, old_students.phone_number );
+end;
+
+
+create trigger [insert_students] 
+after insert on Students
+begin insert into Student_enrolled values(Student_ID);
+end;
+
+create trigger [delete_from]
+after delete on Students
+begin delete from Student_enrolled
+where ID = Student_enrolled.Student_ID;
+end;
